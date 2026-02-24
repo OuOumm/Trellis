@@ -25,25 +25,38 @@ describe("iflow settingsTemplate", () => {
 // getAllCommands — reads iflow command templates
 // =============================================================================
 
-describe("iflow getAllCommands", () => {
-  it("returns commands from commands/trellis/ subdirectory", () => {
-    // iflow getAllCommands now reads from commands/trellis/ subdirectory
-    // This creates commands like /trellis:start, /trellis:finish-work, etc.
-    const commands = getAllCommands();
-    expect(commands.length).toBeGreaterThan(0);
+const EXPECTED_COMMAND_NAMES = [
+  "before-backend-dev",
+  "before-frontend-dev",
+  "brainstorm",
+  "break-loop",
+  "check-backend",
+  "check-cross-layer",
+  "check-frontend",
+  "create-command",
+  "finish-work",
+  "integrate-skill",
+  "onboard",
+  "parallel",
+  "record-session",
+  "start",
+  "update-spec",
+];
 
-    // Each command should have a name and content
+describe("iflow getAllCommands", () => {
+  it("returns the expected command set", () => {
+    const commands = getAllCommands();
+    const names = commands.map((c) => c.name);
+    expect(names).toEqual(EXPECTED_COMMAND_NAMES);
+  });
+
+  it("each command has name and content", () => {
+    const commands = getAllCommands();
     for (const command of commands) {
       expect(command.name.length).toBeGreaterThan(0);
       expect(command.content.length).toBeGreaterThan(0);
     }
-
-    // Check for expected commands
-    const commandNames = commands.map((c) => c.name);
-    expect(commandNames).toContain("start");
-    expect(commandNames).toContain("finish-work");
   });
-
 });
 
 // =============================================================================
