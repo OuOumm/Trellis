@@ -38,7 +38,11 @@ import {
   getAllHooks as getIflowHooks,
   getSettingsTemplate as getIflowSettings,
 } from "../templates/iflow/index.js";
-import { getAllSkills as getCodexSkills } from "../templates/codex/index.js";
+import {
+  getAllHooks as getCodexHooks,
+  getAllSkills as getCodexSkills,
+  getConfigTemplate as getCodexConfig,
+} from "../templates/codex/index.js";
 import { getAllCommands as getKiloCommands } from "../templates/kilo/index.js";
 import { getAllSkills as getKiroSkills } from "../templates/kiro/index.js";
 
@@ -130,6 +134,14 @@ const PLATFORM_FUNCTIONS: Record<AITool, PlatformFunctions> = {
       for (const skill of getCodexSkills()) {
         files.set(`.agents/skills/${skill.name}/SKILL.md`, skill.content);
       }
+      for (const hook of getCodexHooks()) {
+        files.set(`.codex/${hook.targetPath}`, hook.content);
+      }
+      const config = getCodexConfig();
+      files.set(
+        `.codex/${config.targetPath}`,
+        resolvePlaceholders(config.content),
+      );
       return files;
     },
   },
@@ -165,8 +177,16 @@ export const PLATFORM_IDS = Object.keys(AI_TOOLS) as AITool[];
 /** All platform config directory names (e.g., [".claude", ".cursor", ".iflow", ".opencode"]) */
 export const CONFIG_DIRS = PLATFORM_IDS.map((id) => AI_TOOLS[id].configDir);
 
-/** All directories managed by Trellis (including .trellis itself) */
-export const ALL_MANAGED_DIRS = [".trellis", ...CONFIG_DIRS];
+function getManagedDirsForTool(id: AITool): string[] {
+  const config = AI_TOOLS[id];
+  return [config.configDir, ...(config.extraManagedDirs ?? [])];
+}
+
+/** All directories managed by Trellis (including .trellis and platform extra dirs) */
+export const ALL_MANAGED_DIRS = [
+  ".trellis",
+  ...new Set(PLATFORM_IDS.flatMap((id) => getManagedDirsForTool(id))),
+];
 
 /**
  * Detect which platforms are configured by checking for directory existence

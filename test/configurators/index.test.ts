@@ -42,7 +42,10 @@ describe("ALL_MANAGED_DIRS", () => {
   });
 
   it("contains .trellis plus all config dirs", () => {
-    expect(ALL_MANAGED_DIRS).toEqual([".trellis", ...CONFIG_DIRS]);
+    expect(ALL_MANAGED_DIRS).toEqual(
+      expect.arrayContaining([".trellis", ...CONFIG_DIRS]),
+    );
+    expect(ALL_MANAGED_DIRS).toContain(".codex");
   });
 
   it("has no duplicates", () => {
@@ -63,6 +66,7 @@ describe("isManagedPath", () => {
     expect(isManagedPath(".iflow/hooks/test.py")).toBe(true);
     expect(isManagedPath(".opencode/config.json")).toBe(true);
     expect(isManagedPath(".agents/skills/start/SKILL.md")).toBe(true);
+    expect(isManagedPath(".codex/hooks/notify.py")).toBe(true);
     expect(isManagedPath(".kiro/skills/start/SKILL.md")).toBe(true);
   });
 
@@ -73,6 +77,7 @@ describe("isManagedPath", () => {
     expect(isManagedPath(".iflow")).toBe(true);
     expect(isManagedPath(".opencode")).toBe(true);
     expect(isManagedPath(".agents/skills")).toBe(true);
+    expect(isManagedPath(".codex")).toBe(true);
     expect(isManagedPath(".kiro/skills")).toBe(true);
     expect(isManagedPath(".trellis")).toBe(true);
   });
@@ -90,6 +95,7 @@ describe("isManagedPath", () => {
     expect(isManagedPath(".cursorignore")).toBe(false);
     expect(isManagedPath(".opencode-v2")).toBe(false);
     expect(isManagedPath(".agents/skills-backup")).toBe(false);
+    expect(isManagedPath(".codex-backup")).toBe(false);
     expect(isManagedPath(".kiro/skills-backup")).toBe(false);
   });
 
@@ -118,6 +124,7 @@ describe("isManagedPath", () => {
     expect(isManagedPath(".trellis\\spec\\backend")).toBe(true);
     expect(isManagedPath(".iflow\\hooks\\test.py")).toBe(true);
     expect(isManagedPath(".agents\\skills\\start\\SKILL.md")).toBe(true);
+    expect(isManagedPath(".codex\\hooks\\notify.py")).toBe(true);
     expect(isManagedPath(".kiro\\skills\\start\\SKILL.md")).toBe(true);
   });
 
@@ -275,13 +282,19 @@ describe("collectPlatformTemplates", () => {
     }
   });
 
-  it("all returned paths start with platform configDir", () => {
+  it("all returned paths start with managed roots for that platform", () => {
     for (const id of PLATFORM_IDS) {
       const result = collectPlatformTemplates(id);
       if (result) {
-        const configDir = AI_TOOLS[id].configDir;
+        const managedRoots = [
+          AI_TOOLS[id].configDir,
+          ...(AI_TOOLS[id].extraManagedDirs ?? []),
+        ];
         for (const [filePath] of result) {
-          expect(filePath.startsWith(configDir + "/")).toBe(true);
+          const startsWithManagedRoot = managedRoots.some((root) =>
+            filePath.startsWith(root + "/"),
+          );
+          expect(startsWithManagedRoot).toBe(true);
         }
       }
     }

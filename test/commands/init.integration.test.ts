@@ -98,6 +98,8 @@ describe("init() integration", () => {
     expect(fs.existsSync(path.join(tmpDir, ".agents", "skills"))).toBe(true);
     expect(fs.existsSync(path.join(tmpDir, ".agents", "skills", "start", "SKILL.md"))).toBe(true);
     expect(fs.existsSync(path.join(tmpDir, ".agents", "skills", "parallel"))).toBe(false);
+    expect(fs.existsSync(path.join(tmpDir, ".codex", "config.toml"))).toBe(true);
+    expect(fs.existsSync(path.join(tmpDir, ".codex", "hooks", "notify.py"))).toBe(true);
     expect(fs.existsSync(path.join(tmpDir, ".claude"))).toBe(false);
     expect(fs.existsSync(path.join(tmpDir, ".cursor"))).toBe(false);
   });

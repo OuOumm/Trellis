@@ -52,6 +52,8 @@ export interface AIToolConfig {
   templateDirs: TemplateDir[];
   /** Config directory name in the project root (e.g., ".claude") */
   configDir: string;
+  /** Additional managed directories for this tool (e.g., ".codex") */
+  extraManagedDirs?: string[];
   /** CLI flag name for --flag options (e.g., "claude" for --claude) */
   cliFlag: CliFlag;
   /** Whether this tool is checked by default in interactive init prompt */
@@ -108,9 +110,10 @@ export const AI_TOOLS: Record<AITool, AIToolConfig> = {
     name: "Codex",
     templateDirs: ["common", "codex"],
     configDir: ".agents/skills",
+    extraManagedDirs: [".codex"],
     cliFlag: "codex",
     defaultChecked: false,
-    hasPythonHooks: false,
+    hasPythonHooks: true,
   },
   kilo: {
     name: "Kilo CLI",

@@ -155,6 +155,21 @@ describe("configurePlatform", () => {
     }
   });
 
+  it("configurePlatform('codex') writes .codex hook files and config.toml", async () => {
+    await configurePlatform("codex", tmpDir);
+
+    const hookPath = path.join(tmpDir, ".codex", "hooks", "notify.py");
+    const configPath = path.join(tmpDir, ".codex", "config.toml");
+
+    expect(fs.existsSync(hookPath)).toBe(true);
+    expect(fs.existsSync(configPath)).toBe(true);
+
+    const config = fs.readFileSync(configPath, "utf-8");
+    expect(config).toContain('notify = ["');
+    expect(config).toContain("python");
+    expect(config).toContain("hooks/notify.py");
+  });
+
   it("configurePlatform('kiro') creates .kiro/skills directory", async () => {
     await configurePlatform("kiro", tmpDir);
     expect(fs.existsSync(path.join(tmpDir, ".kiro", "skills"))).toBe(true);

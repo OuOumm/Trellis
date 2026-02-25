@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { getAllSkills } from "../../src/templates/codex/index.js";
+import {
+  getAllHooks,
+  getAllSkills,
+  getConfigTemplate,
+} from "../../src/templates/codex/index.js";
 
 const EXPECTED_SKILL_NAMES = [
   "before-backend-dev",
@@ -47,5 +51,24 @@ describe("codex getAllSkills", () => {
       expect(skill.content).not.toContain("subagent_type");
       expect(skill.content).not.toContain('model: "opus"');
     }
+  });
+});
+
+describe("codex hooks and config templates", () => {
+  it("each hook has targetPath under hooks/ and non-empty content", () => {
+    const hooks = getAllHooks();
+    expect(hooks.length).toBeGreaterThan(0);
+    for (const hook of hooks) {
+      expect(hook.targetPath.startsWith("hooks/")).toBe(true);
+      expect(hook.content.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("config template uses notify hook with {{PYTHON_CMD}} placeholder", () => {
+    const config = getConfigTemplate();
+    expect(config.targetPath).toBe("config.toml");
+    expect(config.content).toContain("notify =");
+    expect(config.content).toContain("{{PYTHON_CMD}}");
+    expect(config.content).not.toContain("python3");
   });
 });

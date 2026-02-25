@@ -1,0 +1,6 @@
+# Trellis Codex Hook configuration
+#
+# Codex loads project config from .codex/config.toml when the project is trusted.
+# This hook keeps a lightweight Trellis context snapshot up to date.
+
+notify = ["{{PYTHON_CMD}}", "hooks/notify.py"]

@@ -13,6 +13,8 @@ Use `@/.trellis/` to learn:
 - Project structure guidelines (`spec/`)
 - Developer workspace (`workspace/`)
 
+If `.codex/context/trellis-context.md` exists, read it before planning or coding.
+
 Keep this managed block so 'trellis update' can refresh the instructions.
 
 <!-- TRELLIS:END -->
