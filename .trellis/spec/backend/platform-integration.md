@@ -1,6 +1,6 @@
 # Platform Integration Guide
 
-How to add support for a new AI CLI platform (like Claude Code, Cursor, OpenCode, iFlow).
+How to add support for a new AI CLI platform (like Claude Code, Cursor, Gemini CLI, OpenCode, iFlow, Codex, Kilo, Kiro).
 
 ---
 
@@ -74,7 +74,7 @@ When adding a new platform `{platform}`, update the following:
 
 > Note: OpenCode uses JS plugins instead of Python hooks, has no `index.ts` template module, and has no `collectTemplates` — so `trellis update` does not track OpenCode template files. If a new platform uses JS plugins, follow this pattern.
 
-**Skills pattern** (Codex):
+**Skills pattern** (Codex, Kiro):
 
 | Directory | Contents |
 |-----------|----------|
@@ -82,7 +82,27 @@ When adding a new platform `{platform}`, update the following:
 | `src/templates/{platform}/index.ts` | Export functions for listing skills |
 | `src/templates/{platform}/skills/<skill-name>/SKILL.md` | Skill definitions |
 
-> Note: Codex uses skills (not slash commands). Skill content should use `$<skill-name>` / `/skills` semantics, not `/trellis:*` syntax.
+> Note: Codex/Kiro use skills (not slash commands). Skill content should use `$<skill-name>` / `/skills` semantics, not `/trellis:*` syntax.
+
+**Commands-only pattern** (Cursor, Kilo):
+
+| Directory | Contents |
+|-----------|----------|
+| `src/templates/{platform}/` | Root directory |
+| `src/templates/{platform}/index.ts` | Export `getAllCommands(): CommandTemplate[]` |
+| `src/templates/{platform}/commands/` or `commands/trellis/` | Slash commands (`.md` files) |
+
+> Note: Cursor uses flat prefix naming (`trellis-start.md` → `/trellis-start`). Kilo uses subdirectory namespacing (`commands/trellis/start.md` → `/trellis:start`). No hooks, no agents, no settings.
+
+**TOML commands pattern** (Gemini CLI):
+
+| Directory | Contents |
+|-----------|----------|
+| `src/templates/{platform}/` | Root directory |
+| `src/templates/{platform}/index.ts` | Export `getAllCommands(): CommandTemplate[]` (filter `.toml` not `.md`) |
+| `src/templates/{platform}/commands/trellis/` | Slash commands (`.toml` files) |
+
+> Note: Gemini CLI is the first platform using TOML for commands instead of Markdown. TOML format: `description = "..."` + `prompt = """..."""`. Subdirectory namespacing works the same as Claude (`commands/trellis/start.toml` → `/trellis:start`). When creating TOML templates, use triple-quoted strings (`"""`) for multi-line prompts.
 
 **Required commands/skills**: All platforms must include the following (adapted to each platform's format):
 
@@ -179,15 +199,18 @@ These are now **automatically derived** from the registry:
 
 ## Command Format by Platform
 
-| Platform | Command Format | Example |
-|----------|---------------|---------|
-| Claude Code | `/trellis:xxx` | `/trellis:start` |
-| Cursor | `/trellis-xxx` | `/trellis-start` |
-| OpenCode | `/trellis:xxx` | `/trellis:start` |
-| iFlow | `/trellis:xxx` | `/trellis:start` |
-| Codex | `$<skill-name>` / `/skills` | `$start` |
+| Platform | Command Format | File Format | Example |
+|----------|---------------|-------------|---------|
+| Claude Code | `/trellis:xxx` | Markdown (`.md`) | `/trellis:start` |
+| Cursor | `/trellis-xxx` | Markdown (`.md`) | `/trellis-start` |
+| OpenCode | `/trellis:xxx` | Markdown (`.md`) | `/trellis:start` |
+| iFlow | `/trellis:xxx` | Markdown (`.md`) | `/trellis:start` |
+| Gemini CLI | `/trellis:xxx` | TOML (`.toml`) | `/trellis:start` |
+| Kilo | `/trellis:xxx` | Markdown (`.md`) | `/trellis:start` |
+| Codex | `$<skill-name>` / `/skills` | Markdown (`SKILL.md`) | `$start` |
+| Kiro | `$<skill-name>` / `/skills` | Markdown (`SKILL.md`) | `$start` |
 
-When creating platform templates, ensure references match the platform's interaction format.
+When creating platform templates, ensure references match the platform's interaction format and file format.
 
 ---
 
@@ -240,6 +263,16 @@ if sys.platform == "win32":
 
 **Fix**: Keep `src/templates/codex/skills/<skill-name>/SKILL.md` complete; when removing a skill, delete both `SKILL.md` and the directory.
 
+### EXCLUDE_PATTERNS missing `.js` in configurator
+
+**Symptom**: In production builds (`dist/`), `trellis init` copies compiled `index.js` (and `.js.map`, `.d.ts`) into the user's config directory (e.g., `.gemini/index.js`).
+
+**Cause**: The configurator's `EXCLUDE_PATTERNS` doesn't filter out `.js` files. In development (`src/`), only `.ts` files exist so the issue is invisible. In production, `tsc` compiles `index.ts` → `index.js` into `dist/templates/{platform}/`, and `copyDirFiltered` copies it.
+
+**Fix**: Ensure `EXCLUDE_PATTERNS` includes `.js`, `.js.map`, `.d.ts`, `.d.ts.map` — matching the Cursor configurator pattern. The Claude configurator correctly excludes these; copy from there.
+
+**Prevention**: When creating a new configurator, copy the full `EXCLUDE_PATTERNS` from an existing one (e.g., `cursor.ts`), don't write from scratch.
+
 ### Missing CLI flag or InitOptions field
 
 **Symptom**: `trellis init --{platform}` doesn't work.
@@ -272,6 +305,9 @@ if sys.platform == "win32":
 
 ---
 
-## Reference PR
+## Reference PRs
 
-See PR #22 (iFlow CLI support) for a complete example of adding a new platform.
+| PR | Platform | Pattern | Notes |
+|----|----------|---------|-------|
+| #22 | iFlow CLI | Standard (hooks + agents) | Full platform with Python hooks |
+| feat/gemini branch | Gemini CLI | TOML commands-only | First non-Markdown command format, Cursor-level minimal |
