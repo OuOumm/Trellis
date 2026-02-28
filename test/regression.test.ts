@@ -50,6 +50,8 @@ import {
   collectPlatformTemplates,
   PLATFORM_IDS,
 } from "../src/configurators/index.js";
+import { guidesIndexContent } from "../src/templates/markdown/index.js";
+import * as markdownExports from "../src/templates/markdown/index.js";
 
 afterEach(() => {
   clearManifestCache();
@@ -653,5 +655,22 @@ describe("regression: migration manifest consistency", () => {
       (m) => m.type === "rename" && m.from.startsWith(".claude/commands/"),
     );
     expect(claudeRenames.length).toBeGreaterThan(0);
+  });
+});
+
+// =============================================================================
+// 7. Dead Code / Template Content Regressions
+// =============================================================================
+
+describe("regression: cross-platform-thinking-guide dead code removed (0.3.1)", () => {
+  it("[0.3.1] guidesCrossPlatformThinkingGuideContent is not exported from markdown/index", () => {
+    expect(markdownExports).not.toHaveProperty(
+      "guidesCrossPlatformThinkingGuideContent",
+    );
+  });
+
+  it("[0.3.1] guides index.md does not reference cross-platform-thinking-guide", () => {
+    expect(guidesIndexContent).not.toContain("cross-platform-thinking-guide");
+    expect(guidesIndexContent).not.toContain("Cross-Platform Thinking Guide");
   });
 });

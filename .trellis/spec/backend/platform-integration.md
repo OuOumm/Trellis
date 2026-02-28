@@ -322,6 +322,23 @@ if sys.platform == "win32":
 
 **Fix**: Ensure every file listed in `collectTemplateFiles()` is actually created during `init`. If a file is project-specific (not a user template), do not include it in the update template list.
 
+### Project-type-conditional content not gated in init or update
+
+**Symptom**: Pure backend project gets empty frontend spec templates after `trellis init`. After user deletes the unwanted `spec/frontend/` dir, `trellis update` recreates it.
+
+**Cause (init)**: `createSpecTemplates()` in `workflow.ts` received `projectType` but ignored it (parameter named `_projectType`). All project types got both backend and frontend spec dirs.
+
+**Cause (update)**: `collectTemplateFiles()` in `update.ts` unconditionally included all 13 backend + frontend spec files in the template map, without checking whether `spec/backend/` or `spec/frontend/` actually existed on disk.
+
+**Fix (init)**: Use `projectType` to conditionally create spec dirs:
+- `"backend"` → guides + backend only
+- `"frontend"` → guides + frontend only
+- `"fullstack"` / `"unknown"` → guides + both
+
+**Fix (update)**: Wrap backend/frontend spec file blocks in `fs.existsSync()` checks (same pattern as `getConfiguredPlatforms()` for platform dirs).
+
+**Rule**: When init creates content conditionally based on project type, update must check for directory existence before including files in its template map. The two paths must agree.
+
 ### iFlow getAllCommands() reads wrong directory level (known gap)
 
 **Symptom**: `trellis update` tracks zero iFlow commands — commands are correctly copied during `init` but not tracked for update diffs.
