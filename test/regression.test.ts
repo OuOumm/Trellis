@@ -659,7 +659,44 @@ describe("regression: migration manifest consistency", () => {
 });
 
 // =============================================================================
-// 7. Dead Code / Template Content Regressions
+// 7. collectTemplates Path Consistency
+// =============================================================================
+
+describe("regression: collectTemplates paths match init directory structure (0.3.1)", () => {
+  it("[0.3.1] iflow collectTemplates uses commands/trellis/ subdirectory", () => {
+    const templates = collectPlatformTemplates("iflow");
+    expect(templates).toBeInstanceOf(Map);
+    const commandKeys = [...(templates as Map<string, string>).keys()].filter(
+      (k) => k.includes("/commands/"),
+    );
+    for (const key of commandKeys) {
+      expect(
+        key,
+        `iflow command path should include trellis/ subdirectory: ${key}`,
+      ).toMatch(/\.iflow\/commands\/trellis\//);
+    }
+  });
+
+  it("[0.3.1] all platforms with commands use consistent trellis/ subdirectory", () => {
+    const platformsWithCommands = ["claude-code", "iflow", "kilo", "gemini"] as const;
+    for (const id of platformsWithCommands) {
+      const templates = collectPlatformTemplates(id);
+      if (!templates) continue;
+      const commandKeys = [...templates.keys()].filter(
+        (k) => k.includes("/commands/"),
+      );
+      for (const key of commandKeys) {
+        expect(
+          key,
+          `${id} command path should include trellis/ subdirectory: ${key}`,
+        ).toContain("/commands/trellis/");
+      }
+    }
+  });
+});
+
+// =============================================================================
+// 8. Dead Code / Template Content Regressions
 // =============================================================================
 
 describe("regression: cross-platform-thinking-guide dead code removed (0.3.1)", () => {
