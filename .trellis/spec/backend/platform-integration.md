@@ -104,6 +104,15 @@ When adding a new platform `{platform}`, update the following:
 
 > Note: Gemini CLI is the first platform using TOML for commands instead of Markdown. TOML format: `description = "..."` + `prompt = """..."""`. Subdirectory namespacing works the same as Claude (`commands/trellis/start.toml` → `/trellis:start`). When creating TOML templates, use triple-quoted strings (`"""`) for multi-line prompts.
 
+**Workflows pattern** (Antigravity):
+
+| Directory | Contents |
+|-----------|----------|
+| `src/templates/{platform}/` | Root directory |
+| `src/templates/{platform}/index.ts` | Export `getAllWorkflows(): WorkflowTemplate[]` |
+
+> Note: Antigravity has no physical template files — workflow content is **derived from Codex skills at runtime** via `adaptSkillContentToWorkflow()`. The config dir is `.agent/workflows` (not `.agent/`). Workflows are triggered with `/workflow-name` slash commands. When adding a new Codex skill, Antigravity automatically picks it up.
+
 **Required commands/skills**: All platforms must include the following (adapted to each platform's format):
 
 | Command | Purpose | Required |
@@ -236,6 +245,7 @@ These are now **automatically derived** from the registry:
 | Kilo | `/trellis:xxx` | Markdown (`.md`) | `/trellis:start` |
 | Codex | `$<skill-name>` / `/skills` | Markdown (`SKILL.md`) | `$start` |
 | Kiro | `$<skill-name>` / `/skills` | Markdown (`SKILL.md`) | `$start` |
+| Antigravity | `/<workflow-name>` | Markdown (`.md`) | `/start` |
 
 When creating platform templates, ensure references match the platform's interaction format and file format.
 
@@ -367,3 +377,4 @@ if sys.platform == "win32":
 |----|----------|---------|-------|
 | #22 | iFlow CLI | Standard (hooks + agents) | Full platform with Python hooks |
 | feat/gemini branch | Gemini CLI | TOML commands-only | First non-Markdown command format, Cursor-level minimal |
+| main | Antigravity | Workflows (derived from Codex) | No physical templates — runtime adaptation from Codex skills |
