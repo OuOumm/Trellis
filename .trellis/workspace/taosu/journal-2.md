@@ -1526,3 +1526,36 @@ Found by comparing with PR #47 — original implementation had zero tests.
 ### Next Steps
 
 - None - task complete
+
+
+## Session 59: feat: record-session auto-commit workspace changes
+
+**Date**: 2026-03-03
+**Task**: feat: record-session auto-commit workspace changes
+
+### Summary
+
+add_session.py 写完 journal/index 后自动 git add .trellis/workspace && git commit，解决 record-session 后工作目录脏的问题。同步更新 8 个平台的 record-session 命令模板。
+
+### Main Changes
+
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `d5ac365` | (see git log) |
+| `8fa5771` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
