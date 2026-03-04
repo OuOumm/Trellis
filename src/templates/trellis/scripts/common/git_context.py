@@ -364,7 +364,7 @@ def get_context_text_record(repo_root: Path | None = None) -> str:
         return "\n".join(lines)
 
     # MY ACTIVE TASKS — first and prominent
-    lines.append("## [!!!] MY ACTIVE TASKS (Assigned to %s)" % developer)
+    lines.append(f"## [!!!] MY ACTIVE TASKS (Assigned to {developer})")
     lines.append("[!] Review whether any should be archived before recording this session.")
     lines.append("")
 
