@@ -34,7 +34,7 @@ $integrate-skill mcp-builder
 ### 1. Read Skill Content
 
 Locate and read the skill instructions:
-- `.trae/skills/<skill-name>/SKILL.md` in the repository
+- `.qoder/skills/<skill-name>/SKILL.md` in the repository
 - Skill list in `AGENTS.md` (when available in current context)
 
 If the skill cannot be found, ask the user for the source path or repository.
@@ -166,9 +166,9 @@ yarn add <package>
 
 ---
 
-## 6. Optional: Create Usage Skill
+## 6. Optional: Create Usage Command
 
-If this skill is frequently used, create a shortcut skill:
+If this skill is frequently used, create a shortcut command:
 
 ```bash
 $create-command use-<skill-name> Use <skill-name> skill following project guidelines

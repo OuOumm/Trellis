@@ -5,7 +5,7 @@ description: "Create New Skill"
 
 # Create New Skill
 
-Create a new Kiro skill in `.trae/skills/<skill-name>/SKILL.md` based on user requirements.
+Create a new Qoder skill in `.qoder/skills/<skill-name>/SKILL.md` based on user requirements.
 
 ## Usage
 
@@ -53,7 +53,7 @@ description: "<description>"
 ### 4. Create Files
 
 Create:
-- `.trae/skills/<skill-name>/SKILL.md`
+- `.qoder/skills/<skill-name>/SKILL.md`
 
 ### 5. Confirm Creation
 
@@ -63,7 +63,7 @@ Output result:
 [OK] Created Skill: <skill-name>
 
 File path:
-- .trae/skills/<skill-name>/SKILL.md
+- .qoder/skills/<skill-name>/SKILL.md
 
 Usage:
 - Trigger directly with $<skill-name>

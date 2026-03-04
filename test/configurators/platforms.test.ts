@@ -13,8 +13,7 @@ import { getAllSkills } from "../../src/templates/codex/index.js";
 import { getAllWorkflows as getAllAntigravityWorkflows } from "../../src/templates/antigravity/index.js";
 import { getAllSkills as getAllKiroSkills } from "../../src/templates/kiro/index.js";
 import { getAllCommands as getAllGeminiCommands } from "../../src/templates/gemini/index.js";
-import { getAllSkills as getAllTraeSkills } from "../../src/templates/trae/index.js";
-import { getAllCommands as getAllQoderCommands } from "../../src/templates/qoder/index.js";
+import { getAllSkills as getAllQoderSkills } from "../../src/templates/qoder/index.js";
 
 // =============================================================================
 // getConfiguredPlatforms — detects existing platform directories
@@ -84,12 +83,6 @@ describe("getConfiguredPlatforms", () => {
     fs.mkdirSync(path.join(tmpDir, ".gemini"), { recursive: true });
     const result = getConfiguredPlatforms(tmpDir);
     expect(result.has("gemini")).toBe(true);
-  });
-
-  it("detects .trae/skills directory as trae", () => {
-    fs.mkdirSync(path.join(tmpDir, ".trae", "skills"), { recursive: true });
-    const result = getConfiguredPlatforms(tmpDir);
-    expect(result.has("trae")).toBe(true);
   });
 
   it("detects .qoder directory as qoder", () => {
@@ -293,57 +286,32 @@ describe("configurePlatform", () => {
     }
   });
 
-  it("configurePlatform('trae') creates .trae/skills directory", async () => {
-    await configurePlatform("trae", tmpDir);
-    expect(fs.existsSync(path.join(tmpDir, ".trae", "skills"))).toBe(true);
-  });
-
-  it("configurePlatform('trae') writes all skill templates", async () => {
-    await configurePlatform("trae", tmpDir);
-
-    const expectedSkills = getAllTraeSkills();
-    const expectedNames = expectedSkills.map((skill) => skill.name).sort();
-
-    const skillsRoot = path.join(tmpDir, ".trae", "skills");
-    const actualNames = fs
-      .readdirSync(skillsRoot, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory())
-      .map((entry) => entry.name)
-      .sort();
-
-    expect(actualNames).toEqual(expectedNames);
-    expect(actualNames).not.toContain("parallel");
-
-    for (const skill of expectedSkills) {
-      const skillPath = path.join(skillsRoot, skill.name, "SKILL.md");
-      expect(fs.existsSync(skillPath)).toBe(true);
-      expect(fs.readFileSync(skillPath, "utf-8")).toBe(skill.content);
-    }
-  });
-
   it("configurePlatform('qoder') creates .qoder directory", async () => {
     await configurePlatform("qoder", tmpDir);
     expect(fs.existsSync(path.join(tmpDir, ".qoder"))).toBe(true);
   });
 
-  it("configurePlatform('qoder') writes all command templates", async () => {
+  it("configurePlatform('qoder') writes all skill templates", async () => {
     await configurePlatform("qoder", tmpDir);
 
-    const expectedCommands = getAllQoderCommands();
-    const expectedNames = expectedCommands.map((cmd) => cmd.name).sort();
+    const expectedSkills = getAllQoderSkills();
+    const expectedNames = expectedSkills.map((s) => s.name).sort();
 
-    const commandsDir = path.join(tmpDir, ".qoder", "commands", "trellis");
-    expect(fs.existsSync(commandsDir)).toBe(true);
+    const skillsDir = path.join(tmpDir, ".qoder", "skills");
+    expect(fs.existsSync(skillsDir)).toBe(true);
 
-    const actualFiles = fs.readdirSync(commandsDir).sort();
-    const actualNames = actualFiles.map((f) => f.replace(".md", "")).sort();
+    const actualDirs = fs
+      .readdirSync(skillsDir, { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      .map((e) => e.name)
+      .sort();
 
-    expect(actualNames).toEqual(expectedNames);
+    expect(actualDirs).toEqual(expectedNames);
 
-    for (const cmd of expectedCommands) {
-      const filePath = path.join(commandsDir, `${cmd.name}.md`);
+    for (const skill of expectedSkills) {
+      const filePath = path.join(skillsDir, skill.name, "SKILL.md");
       expect(fs.existsSync(filePath)).toBe(true);
-      expect(fs.readFileSync(filePath, "utf-8")).toBe(cmd.content);
+      expect(fs.readFileSync(filePath, "utf-8")).toBe(skill.content);
     }
   });
 

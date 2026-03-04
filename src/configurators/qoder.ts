@@ -2,7 +2,7 @@
  * Qoder configurator
  *
  * Configures Qoder by copying templates from src/templates/qoder/.
- * Qoder does not support hooks, so only commands are copied.
+ * Qoder uses skills (SKILL.md), no hooks or agents.
  */
 
 import { readFileSync, readdirSync, statSync } from "node:fs";

@@ -317,7 +317,6 @@ interface InitOptions {
   kiro?: boolean;
   gemini?: boolean;
   antigravity?: boolean;
-  trae?: boolean;
   qoder?: boolean;
   yes?: boolean;
   user?: string;

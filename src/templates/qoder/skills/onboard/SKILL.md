@@ -5,21 +5,21 @@ description: "PART 3: Customize Your Development Guidelines"
 
 You are a senior developer onboarding a new team member to this project's AI-assisted workflow system.
 
-YOUR ROLE: Be a mentor and teacher. Don't just list steps - EXPLAIN the underlying principles, why each skill exists, what problem it solves at a fundamental level.
+YOUR ROLE: Be a mentor and teacher. Don't just list steps - EXPLAIN the underlying principles, why each command exists, what problem it solves at a fundamental level.
 
 ## CRITICAL INSTRUCTION - YOU MUST COMPLETE ALL SECTIONS
 
 This onboarding has THREE equally important parts:
 
-**PART 1: Core Concepts** (Sections: CORE PHILOSOPHY, SYSTEM STRUCTURE, SKILL DEEP DIVE)
+**PART 1: Core Concepts** (Sections: CORE PHILOSOPHY, SYSTEM STRUCTURE, COMMAND DEEP DIVE)
 - Explain WHY this workflow exists
-- Explain WHAT each skill does and WHY
+- Explain WHAT each command does and WHY
 
 **PART 2: Real-World Examples** (Section: REAL-WORLD WORKFLOW EXAMPLES)
 - Walk through ALL 5 examples in detail
 - For EACH step in EACH example, explain:
   - PRINCIPLE: Why this step exists
-  - WHAT HAPPENS: What the skill actually does
+  - WHAT HAPPENS: What the command actually does
   - IF SKIPPED: What goes wrong without it
 
 **PART 3: Customize Your Development Guidelines** (Section: CUSTOMIZE YOUR DEVELOPMENT GUIDELINES)
@@ -46,7 +46,7 @@ Every AI session starts with a blank slate. Unlike human engineers who accumulat
 
 **The Problem**: Without memory, AI asks the same questions repeatedly, makes the same mistakes, and can't build on previous work.
 
-**The Solution**: The `.trellis/workspace/` system captures what happened in each session - what was done, what was learned, what problems were solved. The `$start` skill reads this history at session start, giving AI "artificial memory."
+**The Solution**: The `.trellis/workspace/` system captures what happened in each session - what was done, what was learned, what problems were solved. The `$start` command reads this history at session start, giving AI "artificial memory."
 
 ### Challenge 2: AI Has Generic Knowledge, Not Project-Specific Knowledge
 
@@ -54,7 +54,7 @@ AI models are trained on millions of codebases - they know general patterns for 
 
 **The Problem**: AI writes code that "works" but doesn't match your project's style. It uses patterns that conflict with existing code. It makes decisions that violate unwritten team rules.
 
-**The Solution**: The `.trellis/spec/` directory contains project-specific guidelines. The `$before-*-dev` skills inject this specialized knowledge into AI context before coding starts.
+**The Solution**: The `.trellis/spec/` directory contains project-specific guidelines. The `/before-*-dev` commands inject this specialized knowledge into AI context before coding starts.
 
 ### Challenge 3: AI Context Window Is Limited
 
@@ -62,7 +62,7 @@ Even after injecting guidelines, AI has limited context window. As conversation 
 
 **The Problem**: AI starts following guidelines, but as the session progresses and context fills up, it "forgets" the rules and reverts to generic patterns.
 
-**The Solution**: The `$check-*` skills re-verify code against guidelines AFTER writing, catching drift that occurred during development. The `$finish-work` skill does a final holistic review.
+**The Solution**: The `/check-*` commands re-verify code against guidelines AFTER writing, catching drift that occurred during development. The `$finish-work` command does a final holistic review.
 
 ---
 
@@ -109,7 +109,7 @@ Even after injecting guidelines, AI has limited context window. As conversation 
 
 ---
 
-## SKILL DEEP DIVE
+## COMMAND DEEP DIVE
 
 ### $start - Restore AI Memory
 
@@ -188,7 +188,7 @@ Most bugs don't come from lack of technical skill - they come from "didn't think
 ### $finish-work - Holistic Pre-Commit Review
 
 **WHY IT EXISTS**:
-The `$check-*` skills focus on code quality within a single layer. But real changes often have cross-cutting concerns.
+The `/check-*` commands focus on code quality within a single layer. But real changes often have cross-cutting concerns.
 
 **WHAT IT ACTUALLY DOES**:
 1. Reviews all changes holistically
@@ -243,7 +243,7 @@ All the context AI built during this session will be lost when session ends. The
 
 **[1/5] $start** - Clear baseline before major changes
 **[2/5] Plan phases** - Break into verifiable chunks
-**[3/5] Execute phase by phase with $check-* after each** - Incremental verification
+**[3/5] Execute phase by phase with /check-* after each** - Incremental verification
 **[4/5] $finish-work** - Check if new patterns should be documented
 **[5/5] Record with multiple commit hashes** - Link all commits to one feature
 
@@ -261,8 +261,8 @@ All the context AI built during this session will be lost when session ends. The
 ## KEY RULES TO EMPHASIZE
 
 1. **AI NEVER commits** - Human tests and approves. AI prepares, human validates.
-2. **Guidelines before code** - `$before-*-dev` skills inject project knowledge.
-3. **Check after code** - `$check-*` skills catch context drift.
+2. **Guidelines before code** - /before-*-dev commands inject project knowledge.
+3. **Check after code** - /check-* commands catch context drift.
 4. **Record everything** - $record-session persists memory.
 
 ---
@@ -291,7 +291,7 @@ Explain to the developer:
 
 "I see that the development guidelines in `.trellis/spec/` are still empty templates. This is normal for a new Trellis setup!
 
-The templates contain placeholder text that needs to be replaced with YOUR project's actual conventions. Without this, `$before-*-dev` skills won't provide useful guidance.
+The templates contain placeholder text that needs to be replaced with YOUR project's actual conventions. Without this, `/before-*-dev` commands won't provide useful guidance.
 
 **Your first task should be to fill in these guidelines:**
 
@@ -312,7 +312,7 @@ If guidelines have real content (no "To be filled" placeholders), this is an exi
 
 Explain to the developer:
 
-"Great! Your team has already customized the development guidelines. You can start using `$before-*-dev` skills right away.
+"Great! Your team has already customized the development guidelines. You can start using `/before-*-dev` commands right away.
 
 I recommend reading through `.trellis/spec/` to familiarize yourself with the team's coding standards."
 

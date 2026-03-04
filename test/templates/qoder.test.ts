@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { getAllCommands } from "../../src/templates/qoder/index.js";
+import { getAllSkills } from "../../src/templates/qoder/index.js";
 
-const EXPECTED_COMMAND_NAMES = [
+const EXPECTED_SKILL_NAMES = [
   "before-backend-dev",
   "before-frontend-dev",
   "brainstorm",
@@ -13,24 +13,23 @@ const EXPECTED_COMMAND_NAMES = [
   "finish-work",
   "integrate-skill",
   "onboard",
-  "parallel",
   "record-session",
   "start",
   "update-spec",
 ];
 
-describe("qoder getAllCommands", () => {
-  it("returns the expected command set", () => {
-    const commands = getAllCommands();
-    const names = commands.map((c) => c.name);
-    expect(names).toEqual(EXPECTED_COMMAND_NAMES);
+describe("qoder getAllSkills", () => {
+  it("returns the expected skill set", () => {
+    const skills = getAllSkills();
+    const names = skills.map((s) => s.name);
+    expect(names).toEqual(EXPECTED_SKILL_NAMES);
   });
 
-  it("each command has non-empty content", () => {
-    const commands = getAllCommands();
-    for (const command of commands) {
-      expect(command.name.length).toBeGreaterThan(0);
-      expect(command.content.length).toBeGreaterThan(0);
+  it("each skill has non-empty content", () => {
+    const skills = getAllSkills();
+    for (const skill of skills) {
+      expect(skill.name.length).toBeGreaterThan(0);
+      expect(skill.content.length).toBeGreaterThan(0);
     }
   });
 });

@@ -1,12 +1,14 @@
 /**
- * Qoder templates
+ * Qoder skill templates
  *
  * These are GENERIC templates for user projects.
  * Do NOT use Trellis project's own .qoder/ directory (which may be customized).
  *
  * Directory structure:
  *   qoder/
- *   └── commands/trellis/    # Slash commands
+ *   └── skills/
+ *       └── <skill-name>/
+ *           └── SKILL.md
  */
 
 import { readdirSync, readFileSync } from "node:fs";
@@ -20,30 +22,29 @@ function readTemplate(relativePath: string): string {
   return readFileSync(join(__dirname, relativePath), "utf-8");
 }
 
-function listFiles(dir: string): string[] {
+function listSkillNames(): string[] {
   try {
-    return readdirSync(join(__dirname, dir));
+    return readdirSync(join(__dirname, "skills"), { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort();
   } catch {
     return [];
   }
 }
 
-export interface CommandTemplate {
+export interface SkillTemplate {
   name: string;
   content: string;
 }
 
-export function getAllCommands(): CommandTemplate[] {
-  const commands: CommandTemplate[] = [];
-  const files = listFiles("commands/trellis");
+export function getAllSkills(): SkillTemplate[] {
+  const skills: SkillTemplate[] = [];
 
-  for (const file of files) {
-    if (file.endsWith(".md")) {
-      const name = file.replace(".md", "");
-      const content = readTemplate(`commands/trellis/${file}`);
-      commands.push({ name, content });
-    }
+  for (const name of listSkillNames()) {
+    const content = readTemplate(`skills/${name}/SKILL.md`);
+    skills.push({ name, content });
   }
 
-  return commands;
+  return skills;
 }

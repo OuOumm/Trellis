@@ -17,7 +17,6 @@ export type AITool =
   | "kiro"
   | "gemini"
   | "antigravity"
-  | "trae"
   | "qoder";
 
 /**
@@ -34,7 +33,6 @@ export type TemplateDir =
   | "kiro"
   | "gemini"
   | "antigravity"
-  | "trae"
   | "qoder";
 
 /**
@@ -51,7 +49,6 @@ export type CliFlag =
   | "kiro"
   | "gemini"
   | "antigravity"
-  | "trae"
   | "qoder";
 
 /**
@@ -153,14 +150,6 @@ export const AI_TOOLS: Record<AITool, AIToolConfig> = {
     templateDirs: ["common", "antigravity"],
     configDir: ".agent/workflows",
     cliFlag: "antigravity",
-    defaultChecked: false,
-    hasPythonHooks: false,
-  },
-  trae: {
-    name: "Trae",
-    templateDirs: ["common", "trae"],
-    configDir: ".trae/skills",
-    cliFlag: "trae",
     defaultChecked: false,
     hasPythonHooks: false,
   },

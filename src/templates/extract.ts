@@ -189,23 +189,6 @@ export function getAntigravitySourcePath(): string {
 }
 
 /**
- * Get the path to the trae templates directory.
- *
- * This reads from src/templates/trae/ (development) or dist/templates/trae/ (production).
- * These are GENERIC templates, not the Trellis project's own .trae/ configuration.
- */
-export function getTraeTemplatePath(): string {
-  const templatePath = path.join(__dirname, "trae");
-  if (fs.existsSync(templatePath)) {
-    return templatePath;
-  }
-
-  throw new Error(
-    "Could not find trae templates directory. Expected at templates/trae/",
-  );
-}
-
-/**
  * Get the path to the qoder templates directory.
  *
  * This reads from src/templates/qoder/ (development) or dist/templates/qoder/ (production).
