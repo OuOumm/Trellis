@@ -832,3 +832,58 @@ Restructured Trellis repo as a monorepo: moved CLI code to `packages/cli/`, adde
 ### Next Steps
 
 - None - task complete
+
+
+## Session 83: Start Flow: Brainstorm Enforcement + Index Navigation + Guidelines Note
+
+**Date**: 2026-03-10
+**Task**: Start Flow: Brainstorm Enforcement + Index Navigation + Guidelines Note
+**Package**: cli
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+## Changes
+
+| Area | Description |
+|------|-------------|
+| Brainstorm enforcement | All 9 platforms: complex tasks must automatically trigger brainstorm — no skipping to implementation |
+| 4-way classification | Upgraded Gemini, Qoder, Kilo from 3-way to 4-way task classification (Question/Trivial/Simple/Complex) |
+| Index-is-navigation | All 9 platform start files: clarified that index files are navigation pointers, not the actual guidelines |
+| Session-start hooks | 3 hooks (claude, iflow, opencode): added Note in `<guidelines>` tag clarifying injected content is indexes |
+| Dogfooding sync | `.claude/hooks/session-start.py` synced with template changes |
+| PRD update | Recorded generic command description fix in monorepo-compat PRD |
+
+## Key Decisions
+- Cursor start file has different Step 3 structure — index-navigation note adapted to fit after its subsections
+- Antigravity has no own start file — inherits from Codex via `adaptSkillContentToWorkflow()`, verified changes propagate
+
+**Updated Files** (14 files):
+- 9× platform start files (`packages/cli/src/templates/*/`)
+- 3× session-start hooks (claude, iflow, opencode templates)
+- `.claude/hooks/session-start.py` (dogfooding)
+- `.trellis/tasks/03-10-monorepo-compat/prd.md`
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `0d29b70` | (see git log) |
+| `7de2916` | (see git log) |
+| `7c42d80` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
