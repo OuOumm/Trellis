@@ -139,7 +139,7 @@ For simple, well-defined tasks:
 
 ## Complex Task - Brainstorm First
 
-For complex or vague tasks, use `/trellis-brainstorm` first to clarify requirements before implementation.
+For complex or vague tasks, **automatically start the brainstorm process** — do NOT skip directly to implementation. Use `/trellis-brainstorm`.
 
 Summary:
 

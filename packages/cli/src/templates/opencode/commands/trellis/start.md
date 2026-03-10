@@ -82,7 +82,7 @@ For questions or trivial fixes, work directly:
 
 ## Complex Task - Brainstorm First
 
-For complex or vague tasks, use the brainstorm process to clarify requirements.
+For complex or vague tasks, **automatically start the brainstorm process** — do NOT skip directly to implementation.
 
 See `/trellis:brainstorm` for the full process. Summary:
 
