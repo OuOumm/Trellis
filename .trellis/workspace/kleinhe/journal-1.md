@@ -665,3 +665,48 @@ Responded to community user question: "How much context does Trellis + Skill + M
 ### Next Steps
 
 - None - task complete
+
+
+## Session 15: Research Trellis docs strategy
+
+**Date**: 2026-04-27
+**Task**: Research Trellis docs strategy
+**Package**: docs-site
+**Branch**: `main`
+
+### Summary
+
+Researched peer AI coding harness documentation patterns and corrected the session record under the kleinhe workspace.
+
+### Main Changes
+
+| Area | Notes |
+|------|-------|
+| Research scope | Compared docs patterns from Spec Kit, OpenSpec, Kiro, BMad, Agent OS, Superpowers, SuperClaude, and platform rule/steering docs. |
+| Trellis context | Cross-checked current README/docs positioning with user interview summary, survey insights, and enterprise rollout material from Lark docs. |
+| Main output | Saved `.trellis/workspace/kleinhe/trellis-docs-deep-research-2026-04-27.md` with recommended positioning, information architecture, homepage outline, and prioritized docs backlog. |
+| Key recommendation | Reframe docs from CLI/command-first to intent-based paths: solo/power user, team lead, enterprise/platform lead, and advanced integrator. |
+| Priority items | Fix duplicate/confusing docs routes and beta/release messaging, add Choose Your Path, rewrite first-task onboarding, add spec-writing guide, team rollout playbook, comparisons, and troubleshooting for harness collisions. |
+| Verification | Research-only session. No product code or docs-site implementation was changed; no tests were run. |
+| Task maintenance | Archived completed task `03-26-frontend-fullchain-optimization-skill` via project script before recording. |
+| Correction | The session was initially recorded under `codex-agent`; project developer identity was corrected locally to `kleinhe`, and the workspace record/report were moved to `kleinhe`. |
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `756582c9` | (see git log) |
+| `d16a7ec0` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
