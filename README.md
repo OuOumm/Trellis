@@ -38,13 +38,9 @@
 
 ## What is Trellis?
 
-Trellis is an AI coding harness for teams. It turns the huge system prompt you would normally put in `CLAUDE.md`, `AGENTS.md`, or `.cursorrules` into a progressive wiki of specs that agents load only when needed. That saves context window, reduces repeated prompting, and keeps AI output aligned with your project's conventions.
+Trellis is a built-in AI coding harness for teams. It turns the huge system prompt you would normally put in `CLAUDE.md`, `AGENTS.md`, or `.cursorrules` into a progressive wiki of specs, tasks, workflows, and journals that agents load only when needed.
 
-Because the same harness runs across your team, Trellis also optimizes the parts around coding: custom workflows, task management, cross-platform setup, multi-agent worktrees, and explicit session memory.
-
-Most AI coding frameworks stop at personal productivity. Trellis is already used by individual builders, open-source maintainers, teams inside tech giants, labs at top universities, and software engineering departments at public companies. It is built for production projects with hundreds of thousands of lines of code, monorepos, multi-person teams, and mixed AI toolchains.
-
-Trellis does not replace Claude Code, Cursor, Codex, OpenCode, Kiro, Gemini CLI, or other coding agents. It gives them the same project source of truth.
+It gives Claude Code, Codex, Cursor, OpenCode, and other agents the same project source of truth: team standards, task decisions, runbooks, and session memory, without stuffing the whole codebase into every prompt. Trellis is used by individual builders, open-source maintainers, teams inside tech giants, top university labs, and public-company engineering departments working on production monorepos with hundreds of thousands of lines of code.
 
 ## How it works
 
@@ -54,7 +50,7 @@ Trellis installs a `.trellis/` directory into your repository and generates the 
 | ---------------------- | -------------------------------------------------------------------------------------- |
 | `.trellis/spec/`       | Team standards and coding guidelines that agents can load automatically.               |
 | `.trellis/tasks/`      | PRDs, task context, status, review notes, and acceptance criteria.                     |
-| `.trellis/workspace/`  | Per-developer journals for session continuity.                                         |
+| `.trellis/workspace/`  | Developer-level journals, decisions, and handoff notes for session continuity.         |
 | `.trellis/workflow.md` | The shared lifecycle for planning, building, checking, finishing, and learning.        |
 | Platform adapters      | Generated commands, hooks, skills, prompts, workflows, and agent files for your tools. |
 
@@ -65,7 +61,7 @@ The core loop is short:
 3. Let the agent implement inside a clear boundary.
 4. Run checks before handoff.
 5. Promote reusable lessons back into specs.
-6. Record the session so the next one starts with context.
+6. Record the session so the next agent starts with the decisions and context it needs.
 
 For the deeper product model, see the [docs](https://docs.trytrellis.app/) and [real-world scenarios](https://docs.trytrellis.app/guide/ch08-real-world).
 
@@ -87,16 +83,6 @@ Initialize a repository:
 ```bash
 # Start Trellis and create a developer workspace
 trellis init -u your-name
-
-# Or configure the AI tools you already use
-trellis init --claude --cursor --codex --opencode -u your-name
-```
-
-Add more platforms when needed:
-
-```bash
-trellis init --claude --cursor --opencode --iflow --codex --kilo --kiro --gemini
-trellis init --antigravity --windsurf --qoder --codebuddy --copilot --droid
 ```
 
 See the [Quick Start](https://docs.trytrellis.app/guide/ch02-quick-start) and [Supported Platforms](https://docs.trytrellis.app/guide/ch13-multi-platform) guides for setup details.
@@ -116,10 +102,6 @@ Command names are exposed as slash commands, skills, workflows, prompts, or hook
 ```
 
 For large work, `/parallel` splits independent tasks into isolated git worktrees.
-
-## Supported platforms
-
-Trellis supports Claude Code, Cursor, OpenCode, iFlow, Codex, Kilo, Kiro, Gemini CLI, Antigravity, Windsurf, Qoder, CodeBuddy, GitHub Copilot, and Factory Droid.
 
 ## Learn more
 
