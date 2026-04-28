@@ -7,8 +7,8 @@
 </p>
 
 <p align="center">
-<strong>A multi-platform AI coding framework that rules</strong><br/>
-<sub>Supports Claude Code, Cursor, OpenCode, iFlow, Codex, Kilo, Kiro, Gemini CLI, Antigravity, Windsurf, Qoder, CodeBuddy, GitHub Copilot, and Factory Droid.</sub>
+<strong>Make AI coding reliable at team scale.</strong><br/>
+<sub>A repo-native operating layer for specs, tasks, workflows, checks, and memory across Claude Code, Cursor, Codex, OpenCode, and more.</sub>
 </p>
 
 <p align="center">
@@ -36,96 +36,189 @@
 <img src="assets/trellis-demo.gif" alt="Trellis workflow demo" width="100%">
 </p>
 
-## Why Trellis?
+## Proven beyond solo workflows
 
-| Capability | What it changes |
-| --- | --- |
-| **Auto-injected specs** | Write conventions once in `.trellis/spec/`, then let Trellis inject the relevant context into each session instead of repeating yourself. |
-| **Task-centered workflow** | Keep PRDs, implementation context, review context, and task status in `.trellis/tasks/` so AI work stays structured. |
-| **Parallel agent execution** | Run multiple AI tasks side by side with git worktrees instead of turning one branch into a traffic jam. |
-| **Project memory** | Journals in `.trellis/workspace/` preserve what happened last time, so each new session starts with real context. |
-| **Team-shared standards** | Specs live in the repo, so one person’s hard-won workflow or rule can benefit the whole team. |
-| **Multi-platform setup** | Bring the same Trellis structure to 14 AI coding platforms instead of rebuilding your workflow per tool. |
+Most AI coding frameworks stop at personal productivity. Trellis is already used by individual builders, open-source maintainers, teams inside tech giants, labs at top universities, and software engineering departments at public companies.
 
-## Prerequisites
+That matters because Trellis is battle-tested where AI coding usually breaks: production projects with hundreds of thousands of lines of code, monorepos, multi-person teams, shared standards, task boundaries, reviewability, memory, and a rollout path that does not depend on every developer using the same IDE.
 
-- **Node.js** ≥ 18
-- **Python** ≥ 3.10 (required for hooks and automation scripts)
+## AI coding is no longer a solo prompt problem
+
+One developer can usually keep a coding agent on track with enough prompting. A team cannot.
+
+Once multiple people use Claude Code, Cursor, Codex, OpenCode, or another agent in the same repository, the hard problems change:
+
+| What breaks               | What it looks like                                                                         |
+| ------------------------- | ------------------------------------------------------------------------------------------ |
+| **Context drifts**        | Every session starts from a different version of "how this codebase works."                |
+| **Standards stay verbal** | Team conventions live in chat history, review comments, or one senior engineer's head.     |
+| **Tasks sprawl**          | Agents follow nearby context, modify adjacent modules, and make PRs harder to review.      |
+| **Knowledge disappears**  | A bug, workaround, or architecture rule is discovered once, then lost in a transcript.     |
+| **Tools fragment**        | Half the team uses one AI tool, another half uses a different one, and the workflow forks. |
+
+Trellis turns those loose instructions into a versioned project system. Your repository becomes the source of truth for how AI agents should plan, build, check, and remember work.
+
+## What Trellis gives you
+
+| Layer                     | What it does                                                                                           | Why it matters                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| **Specs**                 | Store engineering standards in `.trellis/spec/` and inject the relevant ones automatically.            | Agents stop guessing your conventions and reviewers stop repeating the same comments. |
+| **Tasks**                 | Keep PRDs, acceptance criteria, implementation context, review notes, and status in `.trellis/tasks/`. | Every AI session has a clear boundary and a reviewable reason for the change.         |
+| **Workflow**              | Give agents shared commands for brainstorm, pre-dev context, checks, finish gates, and spec updates.   | Your team gets a repeatable process instead of one-off prompt recipes.                |
+| **Workspace memory**      | Preserve per-developer session journals in `.trellis/workspace/`.                                      | New sessions resume with real project context instead of an empty chat window.        |
+| **Multi-agent execution** | Run isolated agents in git worktrees for independent tasks.                                            | Parallel AI work stops turning one branch into a conflict magnet.                     |
+| **Multi-platform wiring** | Generate the right files for Claude Code, Cursor, Codex, OpenCode, iFlow, Kiro, Gemini CLI, and more.  | The workflow stays in the repo even when the team changes tools.                      |
+
+## Why teams choose Trellis
+
+Trellis is not trying to be another coding agent. It is the coordination layer around the agents you already use.
+
+It is built for teams that want AI coding to behave like engineering work:
+
+- **Repo-native by default**: specs, tasks, workflows, and memory live beside the code and can be reviewed like code.
+- **Brownfield-friendly**: Trellis works with existing projects, old decisions, and real codebases where context matters.
+- **Team-shareable**: one person's hard-won rule can become a shared spec that every future session reads.
+- **Platform-portable**: Claude Code, Cursor, Codex, OpenCode, and other tools can share the same `.trellis/` source of truth.
+- **Enterprise-ready shape**: teams can pilot it in one repo, standardize specs, then roll the workflow across departments without locking into one IDE.
 
 ## Quick Start
 
+### Prerequisites
+
+- **Node.js** >= 18
+- **Python** >= 3.10, required for hooks and automation scripts
+
+### Install
+
 ```bash
-# 1. Install Trellis
 npm install -g @mindfoldhq/trellis@latest
-
-# 2. Initialize in your repo
-trellis init -u your-name
-
-# 3. Or initialize with the platforms you actually use
-trellis init --cursor --opencode --codex -u your-name
 ```
 
-- `-u your-name` creates `.trellis/workspace/your-name/` for personal journals and session continuity.
-- Platform flags can be mixed and matched. Current options include `--cursor`, `--opencode`, `--iflow`, `--codex`, `--kilo`, `--kiro`, `--gemini`, `--antigravity`, `--windsurf`, `--qoder`, `--codebuddy`, `--copilot`, and `--droid`.
-### Commands
+### Initialize a repository
 
-| Command | What it does |
-| --- | --- |
-| `/start` | Load project context into the session. Run once at the beginning — on platforms with hooks (Claude Code, iFlow, OpenCode, Codex, GitHub Copilot) this happens automatically. |
-| `/brainstorm` | Walk through requirements and produce a PRD. Use when starting a new feature or when the scope is unclear. |
-| `/before-dev` | Read the relevant specs before you start coding (auto-detects frontend/backend). Run after `/brainstorm` and before writing any code. |
-| `/check` | Review your changes against project specs and auto-fix violations (auto-detects frontend/backend). Run after implementation, before committing. |
-| `/finish-work` | Pre-commit checklist covering lint, tests, docs, and API changes. Run right before `git commit` as a final gate. |
-| `/parallel` | Spin up multiple agents in isolated git worktrees. Use for large tasks that can be split into independent subtasks. |
-| `/record-session` | Save a session summary to the workspace journal. Run after the human has tested and committed the code. |
-| `/update-spec` | Capture a new pattern or convention into spec files. Run whenever you discover a rule worth preserving for future sessions. |
+```bash
+# Start Trellis and create a developer workspace
+trellis init -u your-name
 
-## Use Cases
+# Or configure the AI tools you already use
+trellis init --claude --cursor --codex --opencode -u your-name
+```
 
-### "AI keeps ignoring our conventions"
+`-u your-name` creates `.trellis/workspace/your-name/` for your session journal and personal continuity.
 
-You write a database naming rule once in `.trellis/spec/backend/database-guidelines.md`. From that point on, every session — whether started by you, a teammate, or a parallel agent — gets that rule injected automatically. No more pasting the same instructions into every chat window.
+Platform flags can be mixed and matched:
 
-### "I need three features done by Friday"
+```bash
+trellis init --claude --cursor --opencode --iflow --codex --kilo --kiro --gemini
+trellis init --antigravity --windsurf --qoder --codebuddy --copilot --droid
+```
 
-Run `/parallel` to spin up three agents, each in its own git worktree with its own branch. They implement, self-check, and open draft PRs independently. You review and merge when ready — no waiting, no branch conflicts.
+See the [Supported Platforms](https://docs.trytrellis.app/guide/ch13-multi-platform) guide for per-tool setup details.
 
-### "New session, zero context"
+## Your first Trellis workflow
 
-When you `/record-session` at the end of a workday, the current session summary lands in your workspace journal. When you start a new session the next day, the startup hook picks it up automatically, so the AI already knows what you shipped, what broke, and what’s left.
+Command names are exposed as slash commands, skills, workflows, prompts, or hooks depending on the AI platform. The core workflow is the same:
 
-### "Half the team uses Cursor, half uses Claude Code"
+| Step | Command           | Use it when                                                                                                                   |
+| ---- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `/start`          | Load project context, active tasks, specs, and recent journal entries. On hook-enabled platforms, this can run automatically. |
+| 2    | `/brainstorm`     | Turn a rough request into a PRD with scope, decisions, risks, and acceptance criteria.                                        |
+| 3    | `/before-dev`     | Load the specific development guidelines needed for the task before writing code.                                             |
+| 4    | Build             | Let the agent implement against the PRD and injected specs.                                                                   |
+| 5    | `/check`          | Review changes against project specs and fix violations before handoff.                                                       |
+| 6    | `/finish-work`    | Run the pre-commit gate: lint, typecheck, tests, docs impact, migrations, and API checks.                                     |
+| 7    | `/update-spec`    | Capture new conventions or repeated review feedback into `.trellis/spec/`.                                                    |
+| 8    | `/record-session` | Save what changed, what was tested, and what remains into your workspace journal.                                             |
 
-Run `trellis init --cursor --claude` once. Both tools read the same `.trellis/spec/` and `.trellis/tasks/`. A spec improvement made in a Claude Code session is available in Cursor the next time someone opens the project.
+For larger tasks, use `/parallel` to plan and run multiple worktree agents in isolation.
 
-## How It Works
+## How it works
 
-Trellis keeps the core workflow in `.trellis/` and generates the platform-specific entry points you need around it.
+Trellis keeps the durable workflow in `.trellis/` and generates platform-specific entry points around it.
 
 ```text
 .trellis/
 ├── spec/                    # Project standards, patterns, and guides
 ├── tasks/                   # Task PRDs, context files, and status
-├── workspace/               # Journals and developer-specific continuity
-├── workflow.md              # Shared workflow rules
-└── scripts/                 # Utilities that power the workflow
+├── workspace/               # Developer journals and session continuity
+├── workflow.md              # Shared workflow contract
+└── scripts/                 # Automation that powers hooks and commands
 ```
 
-Depending on the platforms you enable, Trellis also creates tool-specific integration files such as `.claude/`, `.cursor/`, `AGENTS.md`, `.agents/`, `.codex/`, `.kilocode/`, `.kiro/skills/`, `.gemini/`, `.agent/workflows/` (Antigravity), `.windsurf/workflows/`, `.qoder/`, `.codebuddy/`, `.github/copilot/`, `.github/hooks/`, `.github/prompts/`, and `.factory/` (Droid). For Codex, Trellis also installs project skills under `.agents/skills/` (shared with Cursor, Gemini CLI, GitHub Copilot, Amp, and Kimi Code).
+Depending on the platforms you enable, Trellis also creates integration files such as:
 
-At a high level, the workflow is simple:
+```text
+.claude/                    # Claude Code commands, hooks, agents
+.cursor/                    # Cursor commands and rules
+AGENTS.md                   # Agent-compatible project instructions
+.agents/                    # Shared project skills
+.codex/                     # Codex config, hooks, skills, agents
+.opencode/                  # OpenCode integration
+.iflow/                     # iFlow commands, hooks, agents
+.kilocode/                  # Kilo workflows
+.kiro/skills/               # Kiro skills
+.gemini/                    # Gemini CLI commands
+.agent/workflows/           # Antigravity workflows
+.windsurf/workflows/        # Windsurf workflows
+.qoder/                     # Qoder skills
+.codebuddy/                 # CodeBuddy commands
+.github/copilot/            # GitHub Copilot prompts
+.github/hooks/              # GitHub Copilot hooks
+.github/prompts/            # GitHub prompt files
+.factory/                   # Factory Droid commands
+```
 
-1. Define standards in specs.
-2. Start or refine work from a task PRD.
-3. Let Trellis inject the right context for the current task.
-4. Use checks, journals, and worktrees to keep quality and continuity intact.
+At a high level:
+
+1. Put durable team knowledge in `.trellis/spec/`.
+2. Start work from a task PRD in `.trellis/tasks/`.
+3. Let Trellis inject only the relevant context for the current step.
+4. Run checks before handoff.
+5. Record what happened and promote reusable lessons back into specs.
+
+## Where Trellis fits
+
+| If you are using...                         | Trellis adds...                                                                             |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `CLAUDE.md`, `AGENTS.md`, or `.cursorrules` | Structure, task context, scoped spec injection, memory, and platform-aware workflow wiring. |
+| Claude Code, Cursor, Codex, or OpenCode     | A shared repo-level process that survives tool changes.                                     |
+| Spec-driven tools                           | Brownfield task flow, team memory, checks, journals, and multi-platform integration.        |
+| Role or skill packs                         | A durable project system that stores standards and decisions in version control.            |
+| Manual PR review                            | A way to turn repeated review feedback into executable AI context.                          |
+
+Trellis is a good fit when AI coding is already useful but not yet predictable enough for a team.
+
+It may be too much if you only need a single agent for a small throwaway prototype.
+
+## Use cases
+
+### "AI keeps ignoring our conventions"
+
+Write a rule once in `.trellis/spec/`, then let Trellis inject it into the right sessions. The rule becomes part of the repository instead of another instruction pasted into chat.
+
+### "We need consistent AI work across a team"
+
+Use shared specs and task PRDs so every developer and agent works from the same project facts. Personal journals stay separate; team standards stay reviewable.
+
+### "Our agents make PRs too large"
+
+Start from tasks with explicit goals, non-goals, and acceptance criteria. Trellis gives the agent a boundary before implementation starts.
+
+### "We need multiple agents without branch chaos"
+
+Run `/parallel` to split independent work into git worktrees. Each agent gets its own branch, context, and task directory.
+
+### "The team is split across AI tools"
+
+Initialize the platforms each person uses. Trellis keeps the workflow in `.trellis/`, then generates the right command, skill, hook, or workflow files for each tool.
 
 ## Spec Templates & Marketplace
 
-Specs ship as empty templates by default — they are meant to be customized for your project's stack and conventions. You can fill them from scratch, or start from a community template:
+Specs ship as editable templates. They are meant to be customized for your stack, architecture, and review standards.
+
+You can start from scratch or fetch templates from a custom registry:
 
 ```bash
-# Fetch templates from a custom registry
 trellis init --registry https://github.com/your-org/your-spec-templates
 ```
 
@@ -133,40 +226,49 @@ Browse available templates and learn how to publish your own on the [Spec Templa
 
 ## What's New
 
-- **v0.4.0**: command consolidation (`before-backend-dev` + `before-frontend-dev` → `before-dev`, `check-backend` + `check-frontend` → `check`), new `/update-spec` command for capturing knowledge into specs, internal Python scripts refactoring.
-- **v0.3.6**: task lifecycle hooks, custom template registries (`--registry`), parent-child subtasks, fix PreToolUse hook for CC v2.1.63+.
-- **v0.3.5**: hotfix for delete migration manifest field name (Kilo workflows).
+- **v0.4.0**: command consolidation (`before-backend-dev` + `before-frontend-dev` -> `before-dev`, `check-backend` + `check-frontend` -> `check`), new `/update-spec` command for capturing knowledge into specs, internal Python scripts refactoring.
+- **v0.3.6**: task lifecycle hooks, custom template registries (`--registry`), parent-child subtasks, fix PreToolUse hook for Claude Code v2.1.63+.
+- **v0.3.5**: hotfix for delete migration manifest field name in Kilo workflows.
 - **v0.3.4**: Qoder platform support, Kilo workflows migration, record-session task awareness.
 - **v0.3.1**: background watch mode for `trellis update`, improved `.gitignore` handling, docs refresh.
 - **v0.3.0**: platform support expanded from 2 to 10, Windows compatibility, remote spec templates, `/trellis:brainstorm`.
 
+See the [changelog](https://docs.trytrellis.app/changelog/v0.4.0) for release details.
+
 ## FAQ
 
 <details>
-<summary><strong>How is this different from <code>CLAUDE.md</code>, <code>AGENTS.md</code>, or <code>.cursorrules</code>?</strong></summary>
+<summary><strong>How is Trellis different from <code>CLAUDE.md</code>, <code>AGENTS.md</code>, or <code>.cursorrules</code>?</strong></summary>
 
-Those files are useful, but they tend to become monolithic. Trellis adds structure around them: layered specs, task context, workspace memory, and platform-aware workflow wiring.
+Those files are useful entry points, but they tend to become monolithic. Trellis adds a structured project system around them: scoped specs, task PRDs, workflow gates, workspace memory, and platform-aware generated files.
 
 </details>
 
 <details>
 <summary><strong>Is Trellis only for Claude Code?</strong></summary>
 
-No. Trellis supports 14 platforms today. See the [Supported Platforms](https://docs.trytrellis.app/guide/ch13-multi-platform) guide for the full list and per-tool setup.
+No. Trellis supports Claude Code, Cursor, OpenCode, iFlow, Codex, Kilo, Kiro, Gemini CLI, Antigravity, Windsurf, Qoder, CodeBuddy, GitHub Copilot, and Factory Droid.
 
 </details>
 
 <details>
 <summary><strong>Do I have to write every spec file manually?</strong></summary>
 
-No. Many teams start by letting AI draft specs from existing code and then tighten the important parts by hand. Trellis works best when you keep the high-signal rules explicit and versioned.
+No. Many teams let AI draft the first version from an existing codebase, then tighten the important rules by hand. Trellis works best when specs stay concrete, short, and reviewable.
 
 </details>
 
 <details>
-<summary><strong>Can teams use this without constant conflicts?</strong></summary>
+<summary><strong>Can a team use Trellis without constant merge conflicts?</strong></summary>
 
-Yes. Personal workspace journals stay separate per developer, while shared specs and tasks stay in the repo where they can be reviewed and improved like any other project artifact.
+Yes. Shared specs and tasks live in the repo. Personal journals live under `.trellis/workspace/{name}/`, so developers keep continuity without overwriting each other.
+
+</details>
+
+<details>
+<summary><strong>Is Trellis for solo developers or teams?</strong></summary>
+
+Both. Solo developers use it for memory, conventions, and repeatable workflow. Teams get the larger benefit: shared standards, task boundaries, reviewable context, and platform portability.
 
 </details>
 
