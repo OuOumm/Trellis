@@ -92,7 +92,7 @@ Trellis 内部运行一个 4 阶段循环，skill 与子代理均由系统自动
 | 了解各平台之间的差异 | [支持平台](https://docs.trytrellis.app/zh/advanced/multi-platform) |
 | 查看实际使用场景 | [真实场景](https://docs.trytrellis.app/zh/start/real-world-scenarios) |
 | 从 Spec 模板起步 | [Spec 模板](https://docs.trytrellis.app/zh/templates/specs-index) |
-| 跟进版本更新 | [更新日志](https://docs.trytrellis.app/zh/changelog/v0.5.13) |
+| 跟进版本更新 | [更新日志](https://docs.trytrellis.app/zh/changelog) |
 
 ## 常见问题
 

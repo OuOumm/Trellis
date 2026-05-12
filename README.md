@@ -92,7 +92,7 @@ Trellis runs a 4-phase loop with auto-invoked skills and sub-agents:
 | Understand platform differences | [Supported Platforms](https://docs.trytrellis.app/advanced/multi-platform)     |
 | See the workflow in practice    | [Real-World Scenarios](https://docs.trytrellis.app/start/real-world-scenarios) |
 | Start from spec templates       | [Spec Templates](https://docs.trytrellis.app/templates/specs-index)            |
-| Track releases                  | [Changelog](https://docs.trytrellis.app/changelog/v0.5.13)                     |
+| Track releases                  | [Changelog](https://docs.trytrellis.app/changelog)                             |
 
 ## FAQ
 
