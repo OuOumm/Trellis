@@ -8,7 +8,7 @@
 
 <p align="center">
 <strong>让 AI Agent 真正具备生产力的 Coding Harness</strong><br/>
-<sub>在 Gemini 中开始开发，在 Claude Code 中继续，用 Codex 完成交付 —— 或在任意步骤交给队友接力开发。上下文、规范与标准会在所有代理和所有队友之间共享，因此任何人的最佳实践都能提升整个团队的能力。</sub>
+<sub>用 Gemini 写前端，Claude Code 写后端，Codex 代码审查，或者交给团队接力开发 —— Trellis 将上下文、规范与标准在所有平台和团队内部之间共享，无需 handoff 就可以接着之前的进度继续开发，而且任何人的最佳实践都能提升整个团队的能力。</sub>
 </p>
 
 <p align="center">
